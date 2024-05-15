@@ -1,6 +1,6 @@
-import java.util.Scanner;
+import java.util.*;
 
-class Main {
+public class Main {
 
     static class StringTexto {
         String texto;
@@ -8,33 +8,35 @@ class Main {
         public StringTexto(String texto) {
             this.texto = texto;
         }
+
+        public String getTexto() {
+            return texto;
+        }
     }
 
-    static void ordena(StringTexto[] palavras, int tam) {
-        int i = 1, j;
-        StringTexto pivo;
+    static void ordena(StringTexto[] palavras) {
+        Arrays.sort(palavras, new Comparator<StringTexto>() {
+            @Override
+            public int compare(StringTexto s1, StringTexto s2) {
+                int len1 = s1.getTexto().length();
+                int len2 = s2.getTexto().length();
 
-        while (i < tam) {
-            j = i - 1;
-            pivo = palavras[i];
-
-            while (j >= 0 && palavras[j].texto.length() < pivo.texto.length()) {
-                palavras[j + 1] = palavras[j];
-                j--;
+                if (len1 != len2) {
+                    return Integer.compare(len2, len1); // Ordena por tamanho decrescente
+                } else {
+                    return 0; // Mantém a ordem original
+                }
             }
-
-            palavras[j + 1] = pivo;
-            i++;
-        }
+        });
     }
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        while (scanner.hasNext()) {
-            int casos = scanner.nextInt();
-            scanner.nextLine(); // Consumir a quebra de linha
+        int casos = scanner.nextInt();
+        scanner.nextLine(); // Consumir quebra de linha
 
+        while (casos-- > 0) {
             String entrada = scanner.nextLine();
             String[] palavrasSeparadas = entrada.split(" ");
 
@@ -44,11 +46,13 @@ class Main {
                 palavras[i] = new StringTexto(palavrasSeparadas[i]);
             }
 
-            ordena(palavras, palavras.length);
+            ordena(palavras);
 
             for (int i = 0; i < palavras.length; i++) {
-                if (i != palavras.length && i != 0) System.out.print(" ");
-                System.out.print(palavras[i].texto);
+                System.out.print(palavras[i].getTexto());
+                if (i != palavras.length - 1) {
+                    System.out.print(" ");
+                }
             }
             System.out.println();
         }
