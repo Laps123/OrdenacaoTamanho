@@ -35,27 +35,19 @@ class Main {
             int casos = scanner.nextInt();
             scanner.nextLine(); // Consumir a quebra de linha
 
-            StringTexto[] palavras = new StringTexto[60];
             String entrada = scanner.nextLine();
+            String[] palavrasSeparadas = entrada.split(" ");
 
-            int i = 0, j = 0, k = 0;
-            while (true) {
-                while (entrada.charAt(i) != ' ') {
-                    if (entrada.charAt(i) == '\0') break;
-                    else palavras[j] = new StringTexto(palavras[j].texto + entrada.charAt(i++));
-                }
-                palavras[j].texto += '\0';
+            StringTexto[] palavras = new StringTexto[palavrasSeparadas.length];
 
-                if (entrada.charAt(i) == '\0') break;
-                i++; j++;
-                k = 0;
+            for (int i = 0; i < palavrasSeparadas.length; i++) {
+                palavras[i] = new StringTexto(palavrasSeparadas[i]);
             }
 
-            j++;
-            ordena(palavras, j);
+            ordena(palavras, palavras.length);
 
-            for (i = 0; i < j; i++) {
-                if (i != j && i != 0) System.out.print(" ");
+            for (int i = 0; i < palavras.length; i++) {
+                if (i != palavras.length && i != 0) System.out.print(" ");
                 System.out.print(palavras[i].texto);
             }
             System.out.println();
